@@ -25,7 +25,7 @@ public class Menu {
     private List<Cheese> cheeses = new ArrayList<>();
 
     public void addItem(Cheese item) {
-
+        cheeses.add(item);
     }
 
     // default constructor
