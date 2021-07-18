@@ -22,18 +22,17 @@ public class CategoryController {
 
     @GetMapping("")
     public String index(Model model) {
-
         model.addAttribute("categories", categoryDao.findAll());
         model.addAttribute("title", "Categories");
 
         return "category/index";
-
     }
 
     @GetMapping("add")
     public String displayAddCategoryForm(Model model) {
         model.addAttribute("title", "Add Category");
         model.addAttribute(new Category());
+
         return "category/add";
     }
 
