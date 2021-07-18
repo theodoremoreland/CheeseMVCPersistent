@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -26,7 +23,7 @@ public class MenuController {
     @Autowired
     private MenuDao menuDao;
 
-    @RequestMapping(value = "")
+    @GetMapping("")
     public String index(Model model) {
         model.addAttribute("menus", menuDao.findAll());
         model.addAttribute("title", "Menus");
@@ -34,14 +31,14 @@ public class MenuController {
         return "menu/index";
     }
 
-    @RequestMapping(value = "add", method = RequestMethod.GET)
+    @GetMapping("add")
     public String displayAddMenuForm(Model model) {
         model.addAttribute("title", "Add Menu");
         model.addAttribute(new Menu());
         return "menu/add";
     }
 
-    @RequestMapping(value = "add", method = RequestMethod.POST)
+    @PostMapping("add")
     public String processAddMenuForm(@ModelAttribute  @Valid Menu menu,
                                        Errors errors, Model model) {
         if (errors.hasErrors()) {
@@ -53,7 +50,7 @@ public class MenuController {
         return "redirect:view/" + menu.getId();
     }
 
-    @RequestMapping(value = "view/{menuId}", method = RequestMethod.GET)
+    @GetMapping("view/{menuId}")
     public String viewMenu(Model model, @PathVariable int menuId) {
         Menu menu = menuDao.findById(menuId).orElse(new Menu());
 
@@ -64,7 +61,7 @@ public class MenuController {
         return "menu/view";
     }
 
-    @RequestMapping(value = "add-item/{menuId}", method = RequestMethod.GET)
+    @GetMapping("add-item/{menuId}")
     public String addItem(Model model, @PathVariable int menuId) {
         Menu menu = menuDao.findById(menuId).orElse(new Menu());;
 
@@ -76,7 +73,7 @@ public class MenuController {
         return "menu/add-item";
     }
 
-    @RequestMapping(value = "add-item", method = RequestMethod.POST)
+    @PostMapping("add-item")
     public String addItem(Model model, @ModelAttribute @Valid AddMenuItemForm form, Errors errors) {
         if (errors.hasErrors()) {
             model.addAttribute("form", form);

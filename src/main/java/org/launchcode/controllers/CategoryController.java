@@ -12,9 +12,7 @@ import javax.validation.Valid;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("category")
@@ -22,8 +20,7 @@ public class CategoryController {
     @Autowired
     private CategoryDao categoryDao;
 
-
-    @RequestMapping(value = "")
+    @GetMapping("")
     public String index(Model model) {
 
         model.addAttribute("categories", categoryDao.findAll());
@@ -33,17 +30,16 @@ public class CategoryController {
 
     }
 
-    @RequestMapping(value = "add", method = RequestMethod.GET)
+    @GetMapping("add")
     public String displayAddCategoryForm(Model model) {
         model.addAttribute("title", "Add Category");
         model.addAttribute(new Category());
         return "category/add";
     }
 
-    @RequestMapping(value = "add", method = RequestMethod.POST)
+    @PostMapping("add")
     public String processAddCategoryForm(@ModelAttribute  @Valid Category category,
                                        Errors errors, Model model) {
-
         if (errors.hasErrors()) {
             model.addAttribute("title", "Add Category");
             return "category/add";
@@ -52,5 +48,4 @@ public class CategoryController {
         categoryDao.save(category);
         return "redirect:";
     }
-
 }
