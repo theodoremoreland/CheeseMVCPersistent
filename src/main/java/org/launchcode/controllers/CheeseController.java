@@ -48,11 +48,11 @@ public class CheeseController {
             Category category = optionalCategory.get();
             newCheese.setCategory(category);
             cheeseDao.save(newCheese);
-            return "redirect:";
+            return "redirect:..";
         }
 
         model.addAttribute("title", "Add Cheese");
-        return "cheese/add";
+        return "redirect:..";
     }
 
     @GetMapping("remove")
@@ -68,6 +68,6 @@ public class CheeseController {
             cheeseDao.deleteById(cheeseId);
         }
 
-        return "redirect:";
+        return "redirect:..";
     }
 }
